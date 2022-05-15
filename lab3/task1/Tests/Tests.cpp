@@ -231,7 +231,7 @@ SCENARIO("Testing the gear installation")
 
     WHEN("When we switched with -1 granny 2 at speeds 20")
     {
-        car.SetGear(Gears::second);
+        car.SetGear(Gears::rear);
         car.SetSpeed(20);
         REQUIRE(car.SetGear(Gears::second) == false);
     }

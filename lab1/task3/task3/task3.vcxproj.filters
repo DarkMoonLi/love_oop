@@ -15,16 +15,11 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="task2.cpp">
+    <ClCompile Include="task3.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="input1.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="tests.bat">
-      <Filter>Исходные файлы</Filter>
-    </None>
   </ItemGroup>
 </Project>

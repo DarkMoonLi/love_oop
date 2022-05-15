@@ -18,11 +18,11 @@ int main()
 	Print("SetGear 'gear'");
 	Print("SetSpeed 'speed'\n");
 
+	//посмотреть тв-реализцаию контроллера
 	std::string commandLine;
 	Car car;
 	HelpUtils utils;
 
-	//разделить строку на 2 подстроки и гетлайн
 	while (std::getline(std::cin, commandLine))
 	{
 		int delimiterPosition = commandLine.find(' ');
@@ -43,7 +43,7 @@ int main()
 			std::cout << "Direction of movement: " << utils.DirectionToString(car.GetDirection()) << '\n';
 			std::cout << "Speed: " << car.GetSpeed() << '\n';
 			std::cout << "Gear: " << (int)car.GetGear() << '\n';
-		};
+		}
 
 		if (command == "EngineOn")
 		{

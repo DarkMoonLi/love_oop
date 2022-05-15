@@ -2,6 +2,7 @@
 #include <string>
 #include "HelpUtils.h"
 
+const std::pair<int, int> maxSpeedInterval = { 0, 150 };
 const std::pair<int, int> reverseGearSpeedInterval = { 0, 20 };
 const std::pair<int, int> firstGearSpeedInterval = { 0, 30 };
 const std::pair<int, int> secondGearSpeedInterval = { 20, 50 };
@@ -37,3 +38,4 @@ private:
 	MovementDirection m_movementDirection;
 };
 
+//скорость может быть отрицатльной и брать направление от скорости. Связанные данные.

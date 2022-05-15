@@ -1,6 +1,9 @@
 #include "HelpUtils.h"
 #include <map>
 #include "Car.h"
+#include <iostream>
+
+Car car;
 
 std::map <MovementDirection, std::string> directionString = {
 	{MovementDirection::backward, "backward"},
@@ -18,7 +21,7 @@ bool InSpeedRange(int speed, std::pair<int, int> limits)
 	return (speed >= limits.first && speed <= limits.second);
 }
 
-bool HelpUtils::IsGearInSpeedRange(Gears gear, int speed, Gears m_gear, MovementDirection direction)
+bool HelpUtils::IsGearInSpeedRange(Gears gear, int speed, MovementDirection direction)
 {
 	switch (gear)
 	{
@@ -42,5 +45,38 @@ bool HelpUtils::IsGearInSpeedRange(Gears gear, int speed, Gears m_gear, Movement
 
 		default:
 			return true;
+	}
+}
+
+bool HelpUtils::CheckInSpeedRange(int speed, Gears gear, int m_speed)
+{
+	switch (gear)
+	{
+		case Gears::rear:
+			return InSpeedRange(speed, reverseGearSpeedInterval);
+
+		case Gears::neutral:
+			return (InSpeedRange(speed, maxSpeedInterval) && (speed < m_speed));
+
+		case Gears::first:
+			return InSpeedRange(speed, firstGearSpeedInterval);
+
+		case Gears::second:
+			return InSpeedRange(speed, secondGearSpeedInterval);
+
+		case Gears::third:
+			return InSpeedRange(speed, thirdGearSpeedInterval);
+
+		case Gears::fourth:
+			return InSpeedRange(speed, fourthGearSpeedInterval);
+
+		case Gears::fifth:
+			return InSpeedRange(speed, fifthGearSpeedInterval);
+
+		default:
+			if (InSpeedRange(speed, maxSpeedInterval))
+			{
+				return true;
+			}
 	}
 }

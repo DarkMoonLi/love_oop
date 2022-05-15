@@ -24,7 +24,9 @@ class HelpUtils
 public:
 	std::string DirectionToString(MovementDirection direction);
 
-	bool IsGearInSpeedRange(Gears gear, int speed, Gears m_gear, MovementDirection direction);
+	bool IsGearInSpeedRange(Gears gear, int speed, MovementDirection direction);
+
+	bool CheckInSpeedRange(int speed, Gears gear, int m_speed);
 
 private:
 

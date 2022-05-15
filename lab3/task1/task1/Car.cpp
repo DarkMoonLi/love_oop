@@ -1,8 +1,7 @@
 #include "Car.h"
 #include "HelpUtils.h"
-//если неправильная команда, то сообщение
-//при движении назад переключать передачи нельзя на вторую, написать сперва тест, убедиться, что он не проходит, а потом исправлять баги
-// при выключении двигателя пишет engineOn
+
+//Utils убрать, не использовать и подумать над ним
 
 HelpUtils utils;
 
@@ -57,11 +56,9 @@ bool Car::TurnOnEngine()
 	return m_isEngineOn;
 }
 
-//переделать метод, функция(классная)
 bool Car::SetGear(Gears gear)
 {
-	//не использовать то, что не знаем, как не знаем. Не использовать логические константы.
-	if (m_isEngineOn && (gear >= Gears::rear) && (gear <= Gears::fifth) && utils.IsGearInSpeedRange(gear, m_speed, m_gear, m_movementDirection))
+	if (m_isEngineOn && (gear >= Gears::rear) && (gear <= Gears::fifth) && utils.IsGearInSpeedRange(gear, m_speed, m_movementDirection))
 	{
 		m_gear = gear;
 		return true;
@@ -71,114 +68,26 @@ bool Car::SetGear(Gears gear)
 
 bool Car::SetSpeed(int newSpeed)
 {
-	if (m_isEngineOn)
+	if (m_isEngineOn && utils.CheckInSpeedRange(newSpeed, m_gear, m_speed))
 	{
-		switch (m_gear)
+		m_speed = newSpeed;
+
+		if (newSpeed == 0)
 		{
-			case Gears::rear:
-			{
-				if (newSpeed > 0 && newSpeed <= 20)
-				{
-					m_speed = newSpeed;
-					m_movementDirection = MovementDirection::backward;
-					return true;
-				}
+			m_movementDirection = MovementDirection::standingStill;
+		};
 
-				if (newSpeed == 0)
-				{
-					m_speed = newSpeed;
-					m_movementDirection = MovementDirection::standingStill;
-					return true;
-				}
-
-				break;
-			}
-
-			case Gears::neutral:
-			{
-				if ((newSpeed > 0) && (newSpeed <= m_speed))
-				{
-					m_speed = newSpeed;
-					return true;
-				}
-
-				if (newSpeed == 0)
-				{
-					m_speed = newSpeed;
-					m_movementDirection = MovementDirection::standingStill;
-					return true;
-				}
-
-				break;
-			}
-
-			case Gears::first:
-			{
-				if (newSpeed > 0 && newSpeed <= 30)
-				{
-					m_speed = newSpeed;
-					m_movementDirection = MovementDirection::forward;
-					return true;
-				}
-
-				if (newSpeed == 0)
-				{
-					m_speed = newSpeed;
-					m_movementDirection = MovementDirection::standingStill;
-					return true;
-				}
-
-				break;
-			}
-
-			case Gears::second:
-			{
-				if (newSpeed >= 20 && newSpeed <= 50 && m_gear != Gears::rear)
-				{
-					m_speed = newSpeed;
-					m_movementDirection = MovementDirection::forward;
-					return true;
-				}
-
-				break;
-			}
-
-			case Gears::third:
-			{
-				if (newSpeed >= 30 && newSpeed <= 60)
-				{
-					m_speed = newSpeed;
-					m_movementDirection = MovementDirection::forward;
-					return true;
-				}
-
-				break;
-			}
-
-			case Gears::fourth:
-			{
-				if (newSpeed >= 40 && newSpeed <= 90)
-				{
-					m_speed = newSpeed;
-					m_movementDirection = MovementDirection::forward;
-					return true;
-				}
-
-				break;
-			}
-
-			case Gears::fifth:
-			{
-				if (newSpeed >= 50 && newSpeed <= 150)
-				{
-					m_speed = newSpeed;
-					m_movementDirection = MovementDirection::forward;
-					return true;
-				}
-
-				break;
-			}
+		if ((m_gear == Gears::rear || m_gear == Gears::neutral) && newSpeed > 0)
+		{
+			m_movementDirection = MovementDirection::backward;
 		}
+
+		if (newSpeed > 0 && m_gear != Gears::rear && m_movementDirection != MovementDirection::backward)
+		{
+			m_movementDirection = MovementDirection::forward;
+		}
+
+		return true;
 	}
 
 	return false;
